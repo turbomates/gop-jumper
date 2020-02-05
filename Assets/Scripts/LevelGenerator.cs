@@ -52,8 +52,8 @@ public class LevelGenerator : MonoBehaviour
 
         var ec = platform.GetComponent<EdgeCollider2D>();
         ec.points = new Vector2[] { 
-            new Vector2(-edgeColiderPointPositionX, edgeColiderPointPositionY), 
-            new Vector2(edgeColiderPointPositionX, edgeColiderPointPositionY) 
+            new Vector2(-edgeColiderPointPositionX + 0.2f, edgeColiderPointPositionY), 
+            new Vector2(edgeColiderPointPositionX - 0.2f, edgeColiderPointPositionY) 
         };
     }
 }

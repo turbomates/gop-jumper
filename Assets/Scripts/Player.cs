@@ -26,6 +26,10 @@ public class Player : MonoBehaviour
     rotation.z = rb.velocity.x * -0.01f;
     transform.rotation = rotation;
 
+    // if (transform.position.y > 5) {
+    //   Time.timeScale = 0f;
+    // }
+
     if (isOnPlatform && Input.GetMouseButtonDown(0)) {
       if (power == null && needle != null) {
         angle = needle.GetComponent<Needle>().getCurrentAngle() + 90;

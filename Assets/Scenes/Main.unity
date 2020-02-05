@@ -630,9 +630,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a87971c37db7748847ea0a49ccbe2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumperPrefab: {fileID: 5770884514915225376, guid: f8775e41b4d75f640aa9ff3baf5cf5cb,
-    type: 3}
   platformPrefab: {fileID: 7555297770766242758, guid: 1397556cea4af204c914fabfe4d76564,
+    type: 3}
+  movingPlatformPrefab: {fileID: 8234538983247752985, guid: dbcc1a6ded356364ab2844798ffdc86e,
     type: 3}
   numberOfPlatforms: 100
   levelWidth: 3
@@ -755,7 +755,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1916556650}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.057, y: -2.848, z: 0}
+  m_LocalPosition: {x: 0.04, y: -3.29, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -970,17 +970,17 @@ PrefabInstance:
     - target: {fileID: 5770884514915225383, guid: f8775e41b4d75f640aa9ff3baf5cf5cb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.057
+      value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: 5770884514915225383, guid: f8775e41b4d75f640aa9ff3baf5cf5cb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.848
+      value: -3.29
       objectReference: {fileID: 0}
     - target: {fileID: 5770884514915225383, guid: f8775e41b4d75f640aa9ff3baf5cf5cb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 5770884514915225383, guid: f8775e41b4d75f640aa9ff3baf5cf5cb,
         type: 3}
