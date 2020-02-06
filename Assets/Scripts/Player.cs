@@ -38,7 +38,6 @@ public class Player : MonoBehaviour
         InstantiatePower();
       } else {
         jumper.AnimateJump();
-        DestroyNeedleAndPower();
         float force = power.GetComponent<Power>().getCurrentForce();
         Jump(force);
       }

@@ -7,25 +7,41 @@ public class LevelGenerator : MonoBehaviour
     public GameObject platformPrefab;
     public GameObject movingPlatformPrefab;
 
-    public int numberOfPlatforms;
     public float levelWidth = 2f;
     public float minY;
     public float maxY;
 
-    private void Start() {
-        generatePlatforms();
+    private Vector3 spawnPosition;
+    private int currentLevel;
+
+    private void Awake() {
+        spawnPosition = new Vector3(0, -Camera.main.orthographicSize);
     }
 
-    private void generatePlatforms() {
-        Vector3 spawnPosition = new Vector3();
-        spawnPosition.y = -3;
+    public void GenerateLevel(int level) {
+        currentLevel = level;
+
+        int numberOfPlatform = 40 + level * 2;
+        GenerateGround();
+        GeneratePlatforms(numberOfPlatform);
+    }
+
+    private void GenerateGround() {
+
+    }
+
+    private void GeneratePlatforms(int numberOfPlatforms) {
         float screenWidth = Camera.main.aspect * 2f * Camera.main.orthographicSize;
 
         for (int i = 0; i < numberOfPlatforms; i++) {
             spawnPosition.y += Random.Range(minY, maxY);
             spawnPosition.x = Random.Range(-levelWidth, levelWidth);
 
-            if (i % 5 == 0 && i != 0) {
+            if (i == numberOfPlatforms - 1) {
+                // Finish platform
+            }
+
+            if (i % 5 == 0 && i != 0 && currentLevel > 2) {
                 GameObject platform = Instantiate(movingPlatformPrefab, spawnPosition, Quaternion.identity);
                 SetRandomPlatformSprite(platform);
             } else {
