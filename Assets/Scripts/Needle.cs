@@ -5,8 +5,8 @@ using UnityEngine;
 public class Needle : MonoBehaviour
 {
     public Transform needleTransform;
-    public float needleSpeed = 20f;
-
+    
+    private float needleSpeed;
     private const float MAX_ANGLE  = 90;
     private const float MIN_ANGLE  = -90;
     
@@ -20,6 +20,8 @@ public class Needle : MonoBehaviour
 
     private void Start() {
         needleTransform.eulerAngles = new Vector3(0, 0, currentAngle);
+        int level = Prefs.GetLevel();
+        needleSpeed = 100f + level / 2;
     }
 
     private void Update() {

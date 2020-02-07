@@ -5,7 +5,8 @@ using UnityEngine;
 public class Power : MonoBehaviour
 {
     public Transform powerTransform;
-    public float powerSpeed = 1f;
+
+    private float powerSpeed;
     
     private const float MAX_HEIGHT = 1f;
     private const float MIN_HEIGHT = 0f;
@@ -19,6 +20,10 @@ public class Power : MonoBehaviour
 
     public float getCurrentForce() {
         return MAX_FORCE * currentHeight + MIN_FORCE;
+    }
+
+    private void Start() {
+        powerSpeed = 1.5f + Prefs.GetLevel() / 100;
     }
 
     void Update()

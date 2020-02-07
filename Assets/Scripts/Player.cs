@@ -78,11 +78,13 @@ public class Player : MonoBehaviour
   }
 
   private void DestroyNeedleAndPower() {
-    if (needle != null) 
-      Destroy(needle);
-    if (power != null)
-      Destroy(power);
-    shadowObjects.ForEach(obj => Destroy(obj));
+    if (!isOnPlatform) {
+      if (needle != null) 
+        Destroy(needle);
+      if (power != null)
+        Destroy(power);
+      shadowObjects.ForEach(obj => Destroy(obj));
+    }
   }
 
   private void InstantiateNeedle() {

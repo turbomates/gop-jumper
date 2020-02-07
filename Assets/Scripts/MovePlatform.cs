@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class MovePlatform : MonoBehaviour
 {
-  public float speed = 1f;
   public SpriteRenderer sr;
-
+  
+  private float speed;
   private Vector3 direction = Vector3.left;
+
+  private void Start() {
+    speed = 1f + Prefs.GetLevel() / 20;
+  }
 
   private void Update() {
     float screenWidth = Camera.main.aspect * 2f * Camera.main.orthographicSize;

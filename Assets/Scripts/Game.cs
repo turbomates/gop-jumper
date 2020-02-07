@@ -10,21 +10,30 @@ public class Game : MonoBehaviour
     private LevelGenerator levelGenerator;
     private UI ui;
 
+    private List<GameObject> currentLevelGameObjects = new List<GameObject>();
+    private List<GameObject> nextLevelGameObjects = new List<GameObject>();
+
     private void Awake() {
         levelGenerator = levelGeneratorGameObject.GetComponent<LevelGenerator>();
         ui = UIGameObject.GetComponent<UI>(); 
     }
 
-    void Start() {
-        
-
+    private void Start() {
         int level = Prefs.GetLevel();
 
         ui.SetCurrentLevel(level);
-        levelGenerator.GenerateLevel(level);
+        currentLevelGameObjects = levelGenerator.GenerateLevel(level);
+        nextLevelGameObjects = levelGenerator.GenerateLevel(level + 1);
     }
 
-    void Update() {
-        
+    public void FinishLevel() {
+        currentLevelGameObjects.ForEach(gameObject => Destroy(gameObject));
+        currentLevelGameObjects = nextLevelGameObjects;
+
+        int nextLevel = Prefs.GetLevel() + 1;
+        Prefs.SetLevel(nextLevel);
+        nextLevelGameObjects = levelGenerator.GenerateLevel(nextLevel + 1);
+
+        ui.SetCurrentLevel(nextLevel);
     }
 }
