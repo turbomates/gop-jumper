@@ -12,5 +12,11 @@ static class Prefs
     PlayerPrefs.SetInt("level", level);
   }
 
-  
+  public static int GetCoins() {
+    return PlayerPrefs.GetInt("coins", 0);
+  }
+
+  public static void SetCoins(int coins) {
+    PlayerPrefs.SetInt("coins", coins);
+  }
 }

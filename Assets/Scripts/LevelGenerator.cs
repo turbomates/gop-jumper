@@ -2,11 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public struct Level
+{
+    public List<GameObject> platforms;
+    public GameObject ground;
+    public Vector3 startPosition;
+    public Vector3 endPosition;
+    public int maxCoins;
+}
+
+public struct PlatformsAndCoins
+{
+    public List<GameObject> platforms;
+    public int maxCoins;
+}
+
 public class LevelGenerator : MonoBehaviour
 {
     public GameObject platformPrefab;
     public GameObject movingPlatformPrefab;
     public GameObject groundPrefab;
+    public GameObject coinPrefab;
 
     public float levelWidth = 2f;
     public float minY;
@@ -18,21 +34,27 @@ public class LevelGenerator : MonoBehaviour
         spawnPosition = new Vector3(0, -Camera.main.orthographicSize + 0.5f);
     }
 
-    public List<GameObject> GenerateLevel(int level) {
-        List<GameObject> levelGameObjects = new List<GameObject>();
-        var platforms = GeneratePlatforms(level);
-        levelGameObjects.AddRange(platforms);
-        GenerateGround();
+    public Level GenerateLevel(int levelNumber) {
+        Level level;
+        level.startPosition = spawnPosition;
+        PlatformsAndCoins platformAndCoins = GeneratePlatformsAndCoins(levelNumber);
+        level.platforms = platformAndCoins.platforms;
+        level.ground = GenerateGround();
+        level.endPosition = spawnPosition;
+        level.maxCoins = platformAndCoins.maxCoins;
 
-        return levelGameObjects;
+        return level;
     }
 
-    private void GenerateGround() {
-        Instantiate(groundPrefab, spawnPosition, Quaternion.identity);
+    private GameObject GenerateGround() {
+        return Instantiate(groundPrefab, spawnPosition, Quaternion.identity);
     }
 
-    private List<GameObject> GeneratePlatforms(int level) {
-        List<GameObject> platforms = new List<GameObject>();
+    private PlatformsAndCoins GeneratePlatformsAndCoins(int level) {
+        PlatformsAndCoins platformsAnsCoins;
+        platformsAnsCoins.maxCoins = 0;
+        platformsAnsCoins.platforms = new List<GameObject>();
+
         int numberOfPlatforms = 20 + level * 2;
         float screenWidth = Camera.main.aspect * 2f * Camera.main.orthographicSize;
         spawnPosition.y += 2f;
@@ -47,20 +69,27 @@ public class LevelGenerator : MonoBehaviour
             } else {
                 if (i % 5 == 0 && i != 0 && level > 2) {
                     GameObject platform = Instantiate(movingPlatformPrefab, spawnPosition, Quaternion.identity);
-                    platforms.Add(platform);
+                    platformsAnsCoins.platforms.Add(platform);
                     SetRandomPlatformSprite(platform);
                 } else {
                     GameObject platform = Instantiate(platformPrefab, spawnPosition, Quaternion.identity);
                     SetRandomPlatformSprite(platform);
+                    
+
+                    if (Random.Range(0, 3) > 1) {
+                        GenerateCoinAtPosition(spawnPosition);
+                        platformsAnsCoins.maxCoins += 1;
+                    }
+
                     float shadowPlatformXPosition = spawnPosition.x > 0 ? spawnPosition.x - screenWidth : spawnPosition.x + screenWidth;
                     spawnPosition.x = shadowPlatformXPosition;
-                    platforms.Add(platform);
-                    platforms.Add(Instantiate(platform, spawnPosition, Quaternion.identity));
+                    platformsAnsCoins.platforms.Add(platform);
+                    platformsAnsCoins.platforms.Add(Instantiate(platform, spawnPosition, Quaternion.identity));
                 }
             }
         }
 
-        return platforms;
+        return platformsAnsCoins;
     }
 
     private void SetRandomPlatformSprite(GameObject platform) {
@@ -78,5 +107,19 @@ public class LevelGenerator : MonoBehaviour
             new Vector2(-edgeColiderPointPositionX + 0.1f, edgeColiderPointPositionY), 
             new Vector2(edgeColiderPointPositionX - 0.1f, edgeColiderPointPositionY) 
         };
+    }
+
+    private void GenerateCoinAtPosition(Vector3 position) {
+        float screenWidth = Camera.main.aspect * 2f * Camera.main.orthographicSize;
+        position.y += 0.7f;
+        GameObject middleCoin = Instantiate(coinPrefab, position, Quaternion.identity);
+        position.x -= screenWidth;
+        GameObject leftCoin = Instantiate(coinPrefab, position, Quaternion.identity);
+        position.x += screenWidth * 2;
+        GameObject rightCoin = Instantiate(coinPrefab, position, Quaternion.identity);
+
+        middleCoin.GetComponent<Coin>().SetCoins(leftCoin, rightCoin);
+        leftCoin.GetComponent<Coin>().SetCoins(middleCoin, rightCoin);
+        rightCoin.GetComponent<Coin>().SetCoins(leftCoin, middleCoin);
     }
 }

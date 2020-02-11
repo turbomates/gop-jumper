@@ -10,11 +10,15 @@ public class CameraFollow : MonoBehaviour
     public float cameraBottomHeight = -2f;
     public float cameraLowestPositionY = 0;
     private Vector3 currentVelocity;
+    private float deltaTime;
+
+    private void Awake() {
+        deltaTime = Time.deltaTime;
+    }
 
     void LateUpdate() {
-
         if (cameraLowestPositionY > transform.position.y) {
-            transform.Translate(Vector3.up * Time.deltaTime);
+            transform.Translate(Vector3.up * deltaTime);
         } else 
         if (target.position.y - cameraBottomHeight > cameraLowestPositionY) {
             Vector3 newPos = new Vector3(transform.position.x, target.position.y - cameraBottomHeight, transform.position.z);
@@ -25,5 +29,4 @@ public class CameraFollow : MonoBehaviour
     public void ChangeCameraLowestPositionY(float positionY) {
         cameraLowestPositionY = positionY + Camera.main.orthographicSize;
     }
-    
 }

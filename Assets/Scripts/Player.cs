@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
 
   private GameObject needle;
   private GameObject power;
+  private Game game;
 
   private bool isOnPlatform = false;
   private float angle;
@@ -21,19 +22,20 @@ public class Player : MonoBehaviour
 
   private List<GameObject> shadowObjects = new List<GameObject>();
 
+  private void Awake() {
+    game = GameObject.Find("Game").GetComponent<Game>();
+  }
+
   private void Update() {
+    game.UpdatePlayerProgress(transform.position.y);
+
     Quaternion rotation = transform.rotation;
     rotation.z = rb.velocity.x * -0.01f;
     transform.rotation = rotation;
 
-    // if (transform.position.y > 5) {
-    //   Time.timeScale = 0f;
-    // }
-
     if (isOnPlatform && Input.GetMouseButtonDown(0)) {
       if (power == null && needle != null) {
         angle = needle.GetComponent<Needle>().getCurrentAngle() + 90;
-        
         jumper.AnimateSit();
         InstantiatePower();
       } else {
