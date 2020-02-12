@@ -622,6 +622,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelGeneratorGameObject: {fileID: 1559852008}
   UIGameObject: {fileID: 2059812436}
+  backgroundGameObject: {fileID: 767842916}
 --- !u!1 &674572661
 GameObject:
   m_ObjectHideFlags: 0
@@ -802,10 +803,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 767842916}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4fe04f0b6379704ebda3b342f0defc3, type: 3}
+  m_Script: {fileID: 11500000, guid: 407ab3dae1d743b4f885ad4d7de3a6c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.05
+  speed: 0.1
+  sr: {fileID: 767842917}
 --- !u!1 &792622945
 GameObject:
   m_ObjectHideFlags: 0
@@ -1719,6 +1721,8 @@ MonoBehaviour:
   groundPrefab: {fileID: 3685852351731774508, guid: 3fe2c78a8b2a92946ae0cfbb314cdb16,
     type: 3}
   coinPrefab: {fileID: 8223871452900165150, guid: d8192970f33161243b24834d714765bd,
+    type: 3}
+  platformMechPrefab: {fileID: 3136555304845367241, guid: baa8e2050e4ded341a12185c67e9bc92,
     type: 3}
   levelWidth: 3
   minY: 2

@@ -21,7 +21,7 @@ public class Needle : MonoBehaviour
     private void Start() {
         needleTransform.eulerAngles = new Vector3(0, 0, currentAngle);
         int level = Prefs.GetLevel();
-        needleSpeed = 100f + level / 2;
+        needleSpeed = 135f + level / 2;
     }
 
     private void Update() {

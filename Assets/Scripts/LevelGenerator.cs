@@ -23,6 +23,7 @@ public class LevelGenerator : MonoBehaviour
     public GameObject movingPlatformPrefab;
     public GameObject groundPrefab;
     public GameObject coinPrefab;
+    public GameObject platformMechPrefab;
 
     public float levelWidth = 2f;
     public float minY;
@@ -57,7 +58,7 @@ public class LevelGenerator : MonoBehaviour
 
         int numberOfPlatforms = 20 + level * 2;
         float screenWidth = Camera.main.aspect * 2f * Camera.main.orthographicSize;
-        spawnPosition.y += 2f;
+        spawnPosition.y += 1.2f;
 
         for (int i = 0; i < numberOfPlatforms; i++) {
             spawnPosition.y += Random.Range(minY, maxY);
@@ -67,15 +68,19 @@ public class LevelGenerator : MonoBehaviour
                 spawnPosition.y += Random.Range(minY, maxY);
                 spawnPosition.x = 0;
             } else {
-                if (i % 5 == 0 && i != 0 && level > 2) {
+                if (i % 5 == 0 && i != 0 && level > 1) {
                     GameObject platform = Instantiate(movingPlatformPrefab, spawnPosition, Quaternion.identity);
                     platformsAnsCoins.platforms.Add(platform);
                     SetRandomPlatformSprite(platform);
+                } else if (i % 7 == 0 && i != 0 && level > 2) {
+                    float range = screenWidth / 2f - 1.3f;
+                    spawnPosition.x = Random.Range(-range, range);
+                    GameObject platform = Instantiate(platformMechPrefab, spawnPosition, Quaternion.identity);
+                    platformsAnsCoins.platforms.Add(platform);
                 } else {
                     GameObject platform = Instantiate(platformPrefab, spawnPosition, Quaternion.identity);
                     SetRandomPlatformSprite(platform);
                     
-
                     if (Random.Range(0, 3) > 1) {
                         GenerateCoinAtPosition(spawnPosition);
                         platformsAnsCoins.maxCoins += 1;
@@ -90,6 +95,10 @@ public class LevelGenerator : MonoBehaviour
         }
 
         return platformsAnsCoins;
+    }
+
+    private void GeneratePlatformMech() {
+
     }
 
     private void SetRandomPlatformSprite(GameObject platform) {

@@ -23,7 +23,7 @@ public class Power : MonoBehaviour
     }
 
     private void Start() {
-        powerSpeed = 1.5f + Prefs.GetLevel() / 100;
+        powerSpeed = 2f + Prefs.GetLevel() / 100;
     }
 
     void Update()

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BacgrkoundDance : MonoBehaviour
+public class Background : MonoBehaviour
 {
     public float speed;
+    public SpriteRenderer sr;
+
     private Vector3 vertDirection = Vector3.down;
     private Vector3 horDirection = Vector3.left;
 
@@ -20,5 +22,10 @@ public class BacgrkoundDance : MonoBehaviour
 
         transform.Translate(horDirection * speed * Time.deltaTime);
         transform.Translate(vertDirection * speed * Time.deltaTime);
+    }
+
+    public void ChangeColor(int level) {
+        float gb = 1f - (level / 80f);
+        sr.color = new Color(1f, gb, gb, 255);
     }
 }

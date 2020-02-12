@@ -25,7 +25,7 @@ public class Reward : MonoBehaviour
  
     void Update() {
         if (isActive) {
-            if (currentCoins == picked) {
+            if (currentCoins >= picked) {
                 isActive = false;
                 time = 0f;
             } else {

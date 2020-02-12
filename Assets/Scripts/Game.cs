@@ -6,10 +6,12 @@ public class Game : MonoBehaviour
 {
     public GameObject levelGeneratorGameObject;
     public GameObject UIGameObject;
+    public GameObject backgroundGameObject;
 
     private bool gamePaused = false;
     private LevelGenerator levelGenerator;
     private UI ui;
+    private Background background;
 
     private Level currentLevel;
     private Level nextLevel;
@@ -27,6 +29,7 @@ public class Game : MonoBehaviour
         Pause();
         levelGenerator = levelGeneratorGameObject.GetComponent<LevelGenerator>();
         ui = UIGameObject.GetComponent<UI>(); 
+        background = backgroundGameObject.GetComponent<Background>(); 
         coins = Prefs.GetCoins();
     }
 
@@ -35,6 +38,7 @@ public class Game : MonoBehaviour
 
         ui.SetCurrentLevel(levelNumber);
         ui.SetCoins(coins);
+        background.ChangeColor(levelNumber);
         currentLevel = levelGenerator.GenerateLevel(levelNumber);
         nextLevel = levelGenerator.GenerateLevel(levelNumber + 1);
     }
@@ -66,6 +70,7 @@ public class Game : MonoBehaviour
         Prefs.SetLevel(nextLevelNumber);
         nextLevel = levelGenerator.GenerateLevel(nextLevelNumber + 1);
 
+        background.ChangeColor(nextLevelNumber);
         ui.SetCurrentLevel(nextLevelNumber);
     }
 

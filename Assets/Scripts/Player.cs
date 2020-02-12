@@ -61,6 +61,11 @@ public class Player : MonoBehaviour
     if (rb.velocity.y <= 0f && rb.position == previousPosition && !isOnPlatform) {
       if (collision.collider.GetComponent<MovePlatform>() != null) {
         transform.SetParent(collision.collider.transform);
+      } else {
+        PlatformMech platformMech = collision.collider.GetComponent<PlatformMech>();
+        if (platformMech != null) {
+          platformMech.StartCountdown();
+        }
       }
 
       InstantiateNeedle();
