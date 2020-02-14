@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: Turbomates
+  companyName: Turbomates Soft
   productName: Gop Jumper
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -111,14 +111,14 @@ PlayerSettings:
   switchNVNShaderPoolsGranularity: 33554432
   switchNVNDefaultPoolsGranularity: 16777216
   switchNVNOtherPoolsGranularity: 16777216
-  vulkanEnableSetSRGBWrite: 0
+  vulkanEnableSetSRGBWrite: 1
   m_SupportedAspectRatios:
     4:3: 1
     5:4: 1
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.4
+  bundleVersion: 0.11
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -156,11 +156,11 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.Turbomates.GopJumper
+    Android: com.TurbomatesSoft.GopJumper
     Standalone: com.Turbomates.GopJumper
     iOS: com.Turbomates.GopJumper
   buildNumber: {}
-  AndroidBundleVersionCode: 1
+  AndroidBundleVersionCode: 5
   AndroidMinSdkVersion: 16
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
@@ -246,21 +246,21 @@ PlayerSettings:
   clonedFromGUID: 5f34be1353de5cf4398729fda238591b
   templatePackageId: com.unity.template.2d@1.3.0
   templateDefaultScene: Assets/Scenes/SampleScene.unity
-  AndroidTargetArchitectures: 5
+  AndroidTargetArchitectures: 3
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: 
-  AndroidKeyaliasName: 
+  AndroidKeystoreName: D:/Temp/GopJumperKey.keystore
+  AndroidKeyaliasName: gopjumperkey
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 1
   AndroidIsGame: 1
   AndroidEnableTango: 0
-  androidEnableBanner: 1
+  androidEnableBanner: 0
   androidUseLowAccuracyLocation: 0
   m_AndroidBanners:
   - width: 320
     height: 180
-    banner: {fileID: 2800000, guid: ab985aea793d00b4ebfd295bf081ff0f, type: 3}
+    banner: {fileID: 0}
   androidGamepadSupportLevel: 0
   resolutionDialogBanner: {fileID: 0}
   m_BuildTargetIcons:
@@ -278,37 +278,37 @@ PlayerSettings:
       - {fileID: 0}
       m_Width: 192
       m_Height: 192
-      m_Kind: 0
+      m_Kind: 1
       m_SubKind: 
     - m_Textures:
       - {fileID: 0}
       m_Width: 144
       m_Height: 144
-      m_Kind: 0
+      m_Kind: 1
       m_SubKind: 
     - m_Textures:
       - {fileID: 0}
       m_Width: 96
       m_Height: 96
-      m_Kind: 0
+      m_Kind: 1
       m_SubKind: 
     - m_Textures:
       - {fileID: 0}
       m_Width: 72
       m_Height: 72
-      m_Kind: 0
+      m_Kind: 1
       m_SubKind: 
     - m_Textures:
       - {fileID: 0}
       m_Width: 48
       m_Height: 48
-      m_Kind: 0
+      m_Kind: 1
       m_SubKind: 
     - m_Textures:
       - {fileID: 0}
       m_Width: 36
       m_Height: 36
-      m_Kind: 0
+      m_Kind: 1
       m_SubKind: 
     - m_Textures: []
       m_Width: 432
@@ -344,37 +344,37 @@ PlayerSettings:
       - {fileID: 0}
       m_Width: 192
       m_Height: 192
-      m_Kind: 1
+      m_Kind: 0
       m_SubKind: 
     - m_Textures:
       - {fileID: 0}
       m_Width: 144
       m_Height: 144
-      m_Kind: 1
+      m_Kind: 0
       m_SubKind: 
     - m_Textures:
       - {fileID: 0}
       m_Width: 96
       m_Height: 96
-      m_Kind: 1
+      m_Kind: 0
       m_SubKind: 
     - m_Textures:
       - {fileID: 0}
       m_Width: 72
       m_Height: 72
-      m_Kind: 1
+      m_Kind: 0
       m_SubKind: 
     - m_Textures:
       - {fileID: 0}
       m_Width: 48
       m_Height: 48
-      m_Kind: 1
+      m_Kind: 0
       m_SubKind: 
     - m_Textures:
       - {fileID: 0}
       m_Width: 36
       m_Height: 36
-      m_Kind: 1
+      m_Kind: 0
       m_SubKind: 
   - m_BuildTarget: iPhone
     m_Icons:
@@ -714,7 +714,8 @@ PlayerSettings:
     1: 
     4: 
   platformArchitecture: {}
-  scriptingBackend: {}
+  scriptingBackend:
+    Android: 1
   il2cppCompilerConfiguration: {}
   managedStrippingLevel: {}
   incrementalIl2cppBuild: {}

@@ -33,12 +33,12 @@ public class Player : MonoBehaviour
     rotation.z = rb.velocity.x * -0.01f;
     transform.rotation = rotation;
 
-    if (isOnPlatform && Input.GetMouseButtonDown(0)) {
-      if (power == null && needle != null) {
+    if (isOnPlatform) {
+      if (Input.GetMouseButtonDown(0) && power == null && needle != null) {
         angle = needle.GetComponent<Needle>().getCurrentAngle() + 90;
         jumper.AnimateSit();
         InstantiatePower();
-      } else {
+      } else if (Input.GetMouseButtonUp(0) && power != null) {
         jumper.AnimateJump();
         float force = power.GetComponent<Power>().getCurrentForce();
         Jump(force);
@@ -50,11 +50,10 @@ public class Player : MonoBehaviour
 
   private void Jump(float force) {
     Vector2 velocity = rb.velocity;
-    velocity.x = force / 2 * Mathf.Cos((float) angle * Mathf.Deg2Rad);
-    velocity.y = force;
+    velocity.x = force / 3 * Mathf.Cos((float) angle * Mathf.Deg2Rad);
+    float xForceFaultCoeficient = angle > 90f ? angle - 90f : 90f - angle;
+    velocity.y = force - xForceFaultCoeficient / 30f;
     rb.velocity = velocity;
-
-    isOnPlatform = false;
   }
 
   private void OnCollisionStay2D(Collision2D collision) {
@@ -77,6 +76,7 @@ public class Player : MonoBehaviour
   }
 
   private void OnCollisionExit2D(Collision2D collision) {
+    isOnPlatform = false;
     DestroyNeedleAndPower();
 
     if (collision.collider.GetComponent<MovePlatform>() != null) {
@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
     }
   }
 
-  private void DestroyNeedleAndPower() {
+  public void DestroyNeedleAndPower() {
     if (!isOnPlatform) {
       if (needle != null) 
         Destroy(needle);

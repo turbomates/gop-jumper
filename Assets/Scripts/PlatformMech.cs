@@ -9,16 +9,21 @@ public class PlatformMech : MonoBehaviour
     public List<GameObject> bulbs;
     public EdgeCollider2D colider;
 
+    private Jumper jumper;
+
     private List<SpriteRenderer> bulbsSR = new List<SpriteRenderer>();
     private bool isCountdownActive = false;
     private float timeStep = 0.5f;
     private float waitingTime = 0f;
     private int progress = 0;
 
+    private bool isJumperOnPlatform = false;
+
     private bool isTranslatingActive = false;
     private bool isTransltingReverseActive = false;
 
     private void Awake() {
+        jumper = GameObject.Find("Jumper").GetComponent<Jumper>();
         bulbs.ForEach(bulb => bulbsSR.Add(bulb.GetComponent<SpriteRenderer>()));
         SetBulbsColor(Color.red);
     }
@@ -27,10 +32,10 @@ public class PlatformMech : MonoBehaviour
         if (isTransltingReverseActive) {
             platformLeft.transform.Translate(Vector3.right * Time.deltaTime * 5f);
             platformRight.transform.Translate(Vector3.left * Time.deltaTime * 5f);
+            colider.enabled = true;
 
             if (platformLeft.transform.localPosition.x >= -0.65) {
                 isTransltingReverseActive = false;
-                colider.enabled = true;
                 SetBulbsColor(Color.red);
             }
         }
@@ -38,6 +43,8 @@ public class PlatformMech : MonoBehaviour
         if (isTranslatingActive) {
             platformLeft.transform.Translate(Vector3.left * Time.deltaTime * 5f);
             platformRight.transform.Translate(Vector3.right * Time.deltaTime * 5f);
+            colider.enabled = false;
+            if (isJumperOnPlatform) jumper.AnimateFalling();
 
             if (platformLeft.transform.localPosition.x < -1.7) {
                 isTranslatingActive = false;
@@ -51,7 +58,6 @@ public class PlatformMech : MonoBehaviour
                 progress = 0;
                 waitingTime = 0;
                 isTranslatingActive = true;
-                colider.enabled = false;
                 SetBulbsColor(Color.green);
             } else {
                 waitingTime += Time.deltaTime;
@@ -70,6 +76,11 @@ public class PlatformMech : MonoBehaviour
     }
 
     public void StartCountdown() {
+        isJumperOnPlatform = true;
         isCountdownActive = true;
+    }
+
+    private void OnCollisionExit2D(Collision2D other) {
+        isJumperOnPlatform = false;
     }
 }

@@ -40,8 +40,19 @@ public class Jumper : MonoBehaviour
         jumperRight.transform.position = jumperRightPosition;
     }
 
+    public void AnimateFalling() {
+        animators.ForEach(animator => {
+            animator.SetBool("isFalling", true);
+            animator.SetBool("isIdling", false);
+            animator.SetBool("isSitting", false);
+        });
+    }
+
     public void AnimateIdle() {        
-        animators.ForEach(animator => animator.SetBool("isIdling", true));
+        animators.ForEach(animator => {
+            animator.SetBool("isIdling", true);
+            animator.SetBool("isFalling", false);
+        });
     }
 
     public void AnimateSit() {
