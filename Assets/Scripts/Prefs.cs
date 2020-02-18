@@ -19,4 +19,12 @@ static class Prefs
   public static void SetCoins(int coins) {
     PlayerPrefs.SetInt("coins", coins);
   }
+
+  public static int GetPowerup() {
+    return PlayerPrefs.GetInt("powerup", 0);
+  }
+
+  public static void SetPowerup(int powerup) {
+    PlayerPrefs.SetInt("powerup", powerup);
+  }
 }

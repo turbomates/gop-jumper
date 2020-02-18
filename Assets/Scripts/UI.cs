@@ -4,8 +4,6 @@ using UnityEngine.UI;
 
 public class UI : MonoBehaviour
 {
-    public GameObject levelComplete;
-    public GameObject start;
     public GameObject progress;
     public GameObject rewardGameObject;
 
@@ -46,13 +44,7 @@ public class UI : MonoBehaviour
         rewardGameObject.GetComponent<Reward>().SetCoins(picked, max);
     }
 
-    public void ToggleUI() {
-        if (start.activeSelf) {
-            start.SetActive(false);
-        } else if (levelComplete.activeSelf) {
-            levelComplete.SetActive(false);
-        } else {
-            levelComplete.SetActive(true);
-        }
+    public void Back(GameObject previousScreen) {
+        previousScreen.SetActive(true);
     }
 }

@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
         InstantiatePower();
       } else if (Input.GetMouseButtonUp(0) && power != null) {
         jumper.AnimateJump();
-        float force = power.GetComponent<Power>().getCurrentForce();
+        float force = power.GetComponent<Power>().GetCurrentForce();
         Jump(force);
       }
     }

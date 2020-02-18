@@ -82,7 +82,7 @@ public class LevelGenerator : MonoBehaviour
                     SetRandomPlatformSprite(platform);
                     
                     if (Random.Range(0, 3) > 1) {
-                        GenerateCoinAtPosition(spawnPosition);
+                        GenerateCoinAtPosition(i, spawnPosition);
                         platformsAnsCoins.maxCoins += 1;
                     }
 
@@ -118,7 +118,7 @@ public class LevelGenerator : MonoBehaviour
         };
     }
 
-    private void GenerateCoinAtPosition(Vector3 position) {
+    private void GenerateCoinAtPosition(int id, Vector3 position) {
         float screenWidth = Camera.main.aspect * 2f * Camera.main.orthographicSize;
         position.y += 0.7f;
         GameObject middleCoin = Instantiate(coinPrefab, position, Quaternion.identity);
@@ -127,8 +127,8 @@ public class LevelGenerator : MonoBehaviour
         position.x += screenWidth * 2;
         GameObject rightCoin = Instantiate(coinPrefab, position, Quaternion.identity);
 
-        middleCoin.GetComponent<Coin>().SetCoins(leftCoin, rightCoin);
-        leftCoin.GetComponent<Coin>().SetCoins(middleCoin, rightCoin);
-        rightCoin.GetComponent<Coin>().SetCoins(leftCoin, middleCoin);
+        middleCoin.GetComponent<Coin>().SetCoins(id, leftCoin, rightCoin);
+        leftCoin.GetComponent<Coin>().SetCoins(id, middleCoin, rightCoin);
+        rightCoin.GetComponent<Coin>().SetCoins(id, leftCoin, middleCoin);
     }
 }

@@ -7,6 +7,7 @@ public class Game : MonoBehaviour
     public GameObject levelGeneratorGameObject;
     public GameObject UIGameObject;
     public GameObject backgroundGameObject;
+    public GameObject completeLevelScreen;
 
     private bool gamePaused = false;
     private LevelGenerator levelGenerator;
@@ -17,13 +18,7 @@ public class Game : MonoBehaviour
     private Level nextLevel;
     private int levelCoins = 0;
     private int coins;
-
-    private void Update() {
-        if (gamePaused && Input.GetMouseButtonDown(0)) {
-            Continue();
-            ui.ToggleUI();
-        }
-    }
+    private List<int> coinIds = new List<int>();
 
     private void Awake() {
         Pause();
@@ -43,11 +38,14 @@ public class Game : MonoBehaviour
         nextLevel = levelGenerator.GenerateLevel(levelNumber + 1);
     }
     
-    public void AddCoin() {
-        coins += 1;
-        levelCoins += 1;
-        Prefs.SetCoins(coins);
-        ui.SetCoins(coins);
+    public void AddCoin(int id) {
+        if (!coinIds.Contains(id)) {
+            coins += 1;
+            levelCoins += 1;
+            Prefs.SetCoins(coins);
+            ui.SetCoins(coins);
+            coinIds.Add(id);
+        }
     }
 
     public void UpdatePlayerProgress(float yPosition) {
@@ -58,7 +56,7 @@ public class Game : MonoBehaviour
     public void FinishLevel() {
         Pause();
 
-        ui.ToggleUI();
+        completeLevelScreen.SetActive(true);
         ui.SetReward(levelCoins, currentLevel.maxCoins);
 
         levelCoins = 0;
@@ -69,6 +67,7 @@ public class Game : MonoBehaviour
         int nextLevelNumber = Prefs.GetLevel() + 1;
         Prefs.SetLevel(nextLevelNumber);
         nextLevel = levelGenerator.GenerateLevel(nextLevelNumber + 1);
+        coinIds.Clear();
 
         background.ChangeColor(nextLevelNumber);
         ui.SetCurrentLevel(nextLevelNumber);

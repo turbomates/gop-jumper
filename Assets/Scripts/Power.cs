@@ -11,6 +11,7 @@ public class Power : MonoBehaviour
     private const float MAX_HEIGHT = 1f;
     private const float MIN_HEIGHT = 0f;
 
+    private float maxForce;
     private const float MAX_FORCE = 11f;
     private const float MIN_FORCE = 3f;
 
@@ -18,11 +19,16 @@ public class Power : MonoBehaviour
     private bool isStopped = false;
     private float currentHeight = MIN_HEIGHT;
 
-    public float getCurrentForce() {
-        return MAX_FORCE * currentHeight + MIN_FORCE;
+    public void SetMaxForce(double powerup) {
+        maxForce = MAX_FORCE + (float) powerup / 2;
+    }
+
+    public float GetCurrentForce() {
+        return maxForce * currentHeight + MIN_FORCE;
     }
 
     private void Start() {
+        SetMaxForce(Prefs.GetPowerup());
         powerSpeed = 2f + Prefs.GetLevel() / 100;
     }
 
