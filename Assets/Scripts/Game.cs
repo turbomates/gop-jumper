@@ -8,6 +8,7 @@ public class Game : MonoBehaviour
     public GameObject UIGameObject;
     public GameObject backgroundGameObject;
     public GameObject completeLevelScreen;
+    public GameObject pauseButton;
 
     private bool gamePaused = false;
     private LevelGenerator levelGenerator;
@@ -56,6 +57,7 @@ public class Game : MonoBehaviour
     public void FinishLevel() {
         Pause();
 
+        pauseButton.SetActive(false);
         completeLevelScreen.SetActive(true);
         ui.SetReward(levelCoins, currentLevel.maxCoins);
 

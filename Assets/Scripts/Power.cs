@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Power : MonoBehaviour
 {
-    public Transform powerTransform;
+    public GameObject power;
 
     private float powerSpeed;
     
@@ -55,9 +55,9 @@ public class Power : MonoBehaviour
                 currentHeight -= step;
             }
 
-            float YPosition = isGoingToPositive ? powerTransform.position.y + step / 2 : powerTransform.position.y - step / 2;
-            powerTransform.localScale = new Vector3(powerTransform.localScale.x, currentHeight);
-            powerTransform.position = new Vector3(powerTransform.position.x, YPosition);
+            float YPosition = isGoingToPositive ? power.transform.position.y + step / 2 : power.transform.position.y - step / 2;
+            power.transform.localScale = new Vector3(power.transform.localScale.x, currentHeight);
+            power.transform.position = new Vector3(power.transform.position.x, YPosition);
         }
     }
 }

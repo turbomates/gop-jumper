@@ -13,7 +13,7 @@ public class PlatformMech : MonoBehaviour
 
     private List<SpriteRenderer> bulbsSR = new List<SpriteRenderer>();
     private bool isCountdownActive = false;
-    private float timeStep = 0.5f;
+    private float timeStep;
     private float waitingTime = 0f;
     private int progress = 0;
 
@@ -26,6 +26,9 @@ public class PlatformMech : MonoBehaviour
         jumper = GameObject.Find("Jumper").GetComponent<Jumper>();
         bulbs.ForEach(bulb => bulbsSR.Add(bulb.GetComponent<SpriteRenderer>()));
         SetBulbsColor(Color.red);
+
+        float level = Prefs.GetLevel();
+        timeStep = level <= 80 ? 0.5f - level / 400 : 0.3f;        
     }
 
     private void Update() {
@@ -65,7 +68,7 @@ public class PlatformMech : MonoBehaviour
                 if (waitingTime >= timeStep) {
                     if (progress < bulbsSR.Count) bulbsSR[progress].color = Color.yellow;
                     waitingTime = 0;
-                    progress +=1;
+                    progress += 1;
                 }
             }
         }

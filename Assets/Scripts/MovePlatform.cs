@@ -10,7 +10,7 @@ public class MovePlatform : MonoBehaviour
   private Vector3 direction = Vector3.left;
 
   private void Start() {
-    speed = 1f + Prefs.GetLevel() / 20;
+    speed = 1f + (float) Prefs.GetLevel() / 50f;
   }
 
   private void Update() {

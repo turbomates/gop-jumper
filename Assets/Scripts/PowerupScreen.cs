@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PowerupScreen : MonoBehaviour {
     public GameObject costGameObject;
+    public GameObject costButton;
     public List<GameObject> powerupsGameObjects;
     public GameObject uiGameObject;
 
@@ -22,9 +23,6 @@ public class PowerupScreen : MonoBehaviour {
         powerup = Prefs.GetPowerup();
         UpdatePowerupColors();
         UpdateCost();
-        
-        powerup = 9;
-        Prefs.SetPowerup(powerup);
     }
 
     public void SetPreviousScreen(GameObject previousScreen) {
@@ -43,8 +41,12 @@ public class PowerupScreen : MonoBehaviour {
     }
 
     private void UpdateCost() {
-        cost = 25 * Mathf.Pow(2, powerup);
-        costText.text = cost.ToString();
+        if (powerup == 9) {
+            costButton.SetActive(false);
+        } else {
+            cost = 25 * Mathf.Pow(2, powerup);
+            costText.text = cost.ToString();
+        }
     }
 
     public void BuyPowerup() {

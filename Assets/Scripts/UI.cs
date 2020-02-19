@@ -41,7 +41,7 @@ public class UI : MonoBehaviour
     }
 
     public void SetReward(int picked, int max) {
-        rewardGameObject.GetComponent<Reward>().SetCoins(picked, max);
+        rewardGameObject.GetComponent<Result>().SetCoins(picked, max);
     }
 
     public void Back(GameObject previousScreen) {

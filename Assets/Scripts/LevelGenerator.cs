@@ -40,7 +40,11 @@ public class LevelGenerator : MonoBehaviour
         level.startPosition = spawnPosition;
         PlatformsAndCoins platformAndCoins = GeneratePlatformsAndCoins(levelNumber);
         level.platforms = platformAndCoins.platforms;
+
+        spawnPosition.y += Prefs.GetPowerup() / 4f;
         level.ground = GenerateGround();
+        spawnPosition.y += Prefs.GetPowerup() / 4f;
+
         level.endPosition = spawnPosition;
         level.maxCoins = platformAndCoins.maxCoins;
 
@@ -56,7 +60,7 @@ public class LevelGenerator : MonoBehaviour
         platformsAnsCoins.maxCoins = 0;
         platformsAnsCoins.platforms = new List<GameObject>();
 
-        int numberOfPlatforms = 20 + level * 2;
+        int numberOfPlatforms = 20 + level;
         float screenWidth = Camera.main.aspect * 2f * Camera.main.orthographicSize;
         spawnPosition.y += 1.2f;
 

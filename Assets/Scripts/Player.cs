@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class Player : MonoBehaviour
 
   public Jumper jumper;
 
-  private GameObject needle;
+  private GameObject needleGameObject;
   private GameObject power;
   private Game game;
 
@@ -20,7 +21,8 @@ public class Player : MonoBehaviour
   private float angle;
   private Vector2 previousPosition;
 
-  private List<GameObject> shadowObjects = new List<GameObject>();
+  private List<GameObject> needles = new List<GameObject>();
+  private List<GameObject> powers = new List<GameObject>();
 
   private void Awake() {
     game = GameObject.Find("Game").GetComponent<Game>();
@@ -34,8 +36,8 @@ public class Player : MonoBehaviour
     transform.rotation = rotation;
 
     if (isOnPlatform) {
-      if (Input.GetMouseButtonDown(0) && power == null && needle != null) {
-        angle = needle.GetComponent<Needle>().getCurrentAngle() + 90;
+      if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject() && power == null && needleGameObject != null) {
+        StopNeedle();
         jumper.AnimateSit();
         InstantiatePower();
       } else if (Input.GetMouseButtonUp(0) && power != null) {
@@ -46,6 +48,13 @@ public class Player : MonoBehaviour
     }
 
     jumper.AnimateReposition(rb.velocity.y);
+  }
+
+  private void StopNeedle() {
+    Needle needle = needleGameObject.GetComponent<Needle>();
+    needle.Stop();
+    needles.ForEach(obj => obj.GetComponent<Needle>().Stop());
+    angle = needle.GetCurrentAngle() + 90;
   }
 
   private void Jump(float force) {
@@ -64,8 +73,13 @@ public class Player : MonoBehaviour
         PlatformMech platformMech = collision.collider.GetComponent<PlatformMech>();
         if (platformMech != null) {
           platformMech.StartCountdown();
+        } else {
+          Ground ground = collision.collider.GetComponent<Ground>();
+          if (ground != null) {
+            ground.Land();
+          }
         }
-      }
+      } 
 
       InstantiateNeedle();
       isOnPlatform = true;
@@ -86,22 +100,25 @@ public class Player : MonoBehaviour
 
   public void DestroyNeedleAndPower() {
     if (!isOnPlatform) {
-      if (needle != null) 
-        Destroy(needle);
+      if (needleGameObject != null) 
+        Destroy(needleGameObject);
       if (power != null)
         Destroy(power);
-      shadowObjects.ForEach(obj => Destroy(obj));
+      needles.ForEach(obj => Destroy(obj));
+      powers.ForEach(obj => Destroy(obj));
+      needles.Clear();
+      powers.Clear();
     }
   }
 
   private void InstantiateNeedle() {
     Vector3 position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
-    needle = Instantiate(needlePrefab, position, Quaternion.identity);
-    needle.transform.parent = transform;
+    needleGameObject = Instantiate(needlePrefab, position, Quaternion.identity);
+    needleGameObject.transform.parent = transform;
 
     float width = Camera.main.aspect * 2f * Camera.main.orthographicSize;
-    shadowObjects.Add(Instantiate(needlePrefab, new Vector3(position.x - width, position.y, position.z), Quaternion.identity));
-    shadowObjects.Add(Instantiate(needlePrefab, new Vector3(position.x + width, position.y, position.z), Quaternion.identity));
+    needles.Add(Instantiate(needlePrefab, new Vector3(position.x - width, position.y, position.z), Quaternion.identity));
+    needles.Add(Instantiate(needlePrefab, new Vector3(position.x + width, position.y, position.z), Quaternion.identity));
   }
 
   private void InstantiatePower() {
@@ -111,7 +128,7 @@ public class Player : MonoBehaviour
     power.transform.parent = transform;
 
     float width = Camera.main.aspect * 2f * Camera.main.orthographicSize;
-    shadowObjects.Add(Instantiate(powerPrefab, new Vector3(position.x - width, position.y, position.z), Quaternion.identity));
-    shadowObjects.Add(Instantiate(powerPrefab, new Vector3(position.x + width, position.y, position.z), Quaternion.identity));
+    powers.Add(Instantiate(powerPrefab, new Vector3(position.x - width, position.y, position.z), Quaternion.identity));
+    powers.Add(Instantiate(powerPrefab, new Vector3(position.x + width, position.y, position.z), Quaternion.identity));
   }
 }

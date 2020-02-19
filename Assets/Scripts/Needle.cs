@@ -14,7 +14,7 @@ public class Needle : MonoBehaviour
     private bool isGoingToPositive = false;
     private float currentAngle = MIN_ANGLE;
 
-    public float getCurrentAngle() {
+    public float GetCurrentAngle() {
         return currentAngle;
     }
 
@@ -25,10 +25,6 @@ public class Needle : MonoBehaviour
     }
 
     private void Update() {
-        if (Input.GetMouseButtonDown(0)) {
-            isStopped = true;
-        }
-
         if (!isStopped) {
             if (currentAngle >= MAX_ANGLE) {
                 isGoingToPositive = false;
@@ -46,5 +42,9 @@ public class Needle : MonoBehaviour
 
             needleTransform.eulerAngles = new Vector3(0, 0, currentAngle);
         }
+    }
+
+    public void Stop() {
+        isStopped = true;
     }
 }
