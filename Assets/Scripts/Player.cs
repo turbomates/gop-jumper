@@ -28,6 +28,18 @@ public class Player : MonoBehaviour
     game = GameObject.Find("Game").GetComponent<Game>();
   }
 
+  private bool IsPointerOverGameObject() {
+    if (EventSystem.current.IsPointerOverGameObject())
+        return true;
+    
+    if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) {
+      if(EventSystem.current.IsPointerOverGameObject(Input.touches[0].fingerId))
+        return true;
+    }
+    
+    return false;
+  }
+
   private void Update() {
     game.UpdatePlayerProgress(transform.position.y);
 
@@ -36,7 +48,7 @@ public class Player : MonoBehaviour
     transform.rotation = rotation;
 
     if (isOnPlatform) {
-      if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject() && power == null && needleGameObject != null) {
+      if (Input.GetMouseButtonDown(0) && !IsPointerOverGameObject() && power == null && needleGameObject != null) {
         StopNeedle();
         jumper.AnimateSit();
         InstantiatePower();
@@ -88,6 +100,8 @@ public class Player : MonoBehaviour
 
     previousPosition = rb.position;
   }
+
+  
 
   private void OnCollisionExit2D(Collision2D collision) {
     isOnPlatform = false;

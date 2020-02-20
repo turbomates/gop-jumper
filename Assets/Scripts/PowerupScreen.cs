@@ -8,7 +8,9 @@ public class PowerupScreen : MonoBehaviour {
     public GameObject costButton;
     public List<GameObject> powerupsGameObjects;
     public GameObject uiGameObject;
+    public GameObject gameGameObject;
 
+    private Game game;
     private UI ui;
     private List<Image> powerupsSR;
     private GameObject previousScreen;
@@ -18,6 +20,7 @@ public class PowerupScreen : MonoBehaviour {
 
     private void Awake() {
         powerupsSR = powerupsGameObjects.ConvertAll(gameObject => gameObject.GetComponent<Image>());
+        game = gameGameObject.GetComponent<Game>();
         costText = costGameObject.GetComponent<Text>();
         ui = uiGameObject.GetComponent<UI>();
         powerup = Prefs.GetPowerup();
@@ -44,7 +47,7 @@ public class PowerupScreen : MonoBehaviour {
         if (powerup == 9) {
             costButton.SetActive(false);
         } else {
-            cost = 25 * Mathf.Pow(2, powerup);
+            cost = powerup == 0 ? 25 : 25 * (powerup + 1) + 10 * (powerup - 1);
             costText.text = cost.ToString();
         }
     }
@@ -54,7 +57,7 @@ public class PowerupScreen : MonoBehaviour {
         if (coins >= cost) {
             powerup += 1;
             Prefs.SetPowerup(powerup);
-            ui.SetCoins(coins - (int) cost);
+            game.SetCoins(coins - (int) cost);
             
             UpdatePowerupColors();
             UpdateCost();

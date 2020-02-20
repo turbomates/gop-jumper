@@ -60,7 +60,7 @@ public class LevelGenerator : MonoBehaviour
         platformsAnsCoins.maxCoins = 0;
         platformsAnsCoins.platforms = new List<GameObject>();
 
-        int numberOfPlatforms = 20 + level;
+        int numberOfPlatforms = 15 + level;
         float screenWidth = Camera.main.aspect * 2f * Camera.main.orthographicSize;
         spawnPosition.y += 1.2f;
 
@@ -85,7 +85,7 @@ public class LevelGenerator : MonoBehaviour
                     GameObject platform = Instantiate(platformPrefab, spawnPosition, Quaternion.identity);
                     SetRandomPlatformSprite(platform);
                     
-                    if (Random.Range(0, 3) > 1) {
+                    if (Random.Range(1, 3) > 1) {
                         GenerateCoinAtPosition(i, spawnPosition);
                         platformsAnsCoins.maxCoins += 1;
                     }
@@ -99,10 +99,6 @@ public class LevelGenerator : MonoBehaviour
         }
 
         return platformsAnsCoins;
-    }
-
-    private void GeneratePlatformMech() {
-
     }
 
     private void SetRandomPlatformSprite(GameObject platform) {

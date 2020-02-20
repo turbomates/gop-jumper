@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GoogleMobileAds.Api;
 
 public class Game : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class Game : MonoBehaviour
     private int coins;
     private List<int> coinIds = new List<int>();
 
+    private InterstitialAd interstitial;
+
     private void Awake() {
         Pause();
         levelGenerator = levelGeneratorGameObject.GetComponent<LevelGenerator>();
@@ -30,6 +33,8 @@ public class Game : MonoBehaviour
     }
 
     private void Start() {
+        MobileAds.Initialize(initStatus => { });
+
         int levelNumber = Prefs.GetLevel();
 
         ui.SetCurrentLevel(levelNumber);
@@ -37,16 +42,37 @@ public class Game : MonoBehaviour
         background.ChangeColor(levelNumber);
         currentLevel = levelGenerator.GenerateLevel(levelNumber);
         nextLevel = levelGenerator.GenerateLevel(levelNumber + 1);
+
+        RequestInterstitial();
+    }
+
+    private void RequestInterstitial() {
+        #if UNITY_ANDROID
+            string adUnitId = "ca-app-pub-2682671172904405/4204944834";
+        #elif UNITY_IPHONE
+            string adUnitId = "";
+        #else
+            string adUnitId = "unexpected_platform";
+        #endif
+
+        interstitial = new InterstitialAd(adUnitId);
+        AdRequest request = new AdRequest.Builder().AddTestDevice("2F7414E3B8EAD86E").Build();
+        interstitial.LoadAd(request);
     }
     
     public void AddCoin(int id) {
         if (!coinIds.Contains(id)) {
             coins += 1;
             levelCoins += 1;
-            Prefs.SetCoins(coins);
-            ui.SetCoins(coins);
             coinIds.Add(id);
+            SetCoins(coins);
         }
+    }
+
+    public void SetCoins(int amount) {
+            coins = amount;
+            Prefs.SetCoins(amount);
+            ui.SetCoins(amount);
     }
 
     public void UpdatePlayerProgress(float yPosition) {
@@ -73,6 +99,9 @@ public class Game : MonoBehaviour
 
         background.ChangeColor(nextLevelNumber);
         ui.SetCurrentLevel(nextLevelNumber);
+        
+        if (interstitial.IsLoaded())
+            interstitial.Show();
     }
 
     public void Pause() {
