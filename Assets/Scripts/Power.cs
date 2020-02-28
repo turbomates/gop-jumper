@@ -36,10 +36,6 @@ public class Power : MonoBehaviour
     {
         float step = powerSpeed * Time.deltaTime;
 
-        if (Input.GetMouseButtonDown(0)) {
-            isStopped = true;
-        }
-
         if (!isStopped) {
             if (currentHeight >= MAX_HEIGHT) {
                 isGoingToPositive = false;
@@ -59,5 +55,9 @@ public class Power : MonoBehaviour
             power.transform.localScale = new Vector3(power.transform.localScale.x, currentHeight);
             power.transform.position = new Vector3(power.transform.position.x, YPosition);
         }
+    }
+
+    public void Stop() {
+        isStopped = true;
     }
 }

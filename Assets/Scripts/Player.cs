@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
   public Jumper jumper;
 
   private GameObject needleGameObject;
-  private GameObject power;
+  private GameObject powerGameObject;
   private Game game;
 
   private bool isOnPlatform = false;
@@ -48,13 +48,14 @@ public class Player : MonoBehaviour
     transform.rotation = rotation;
 
     if (isOnPlatform) {
-      if (Input.GetMouseButtonDown(0) && !IsPointerOverGameObject() && power == null && needleGameObject != null) {
+      if (Input.GetMouseButtonDown(0) && !IsPointerOverGameObject() && powerGameObject == null && needleGameObject != null) {
         StopNeedle();
         jumper.AnimateSit();
         InstantiatePower();
-      } else if (Input.GetMouseButtonUp(0) && power != null) {
-        jumper.AnimateJump();
-        float force = power.GetComponent<Power>().GetCurrentForce();
+      } else if (Input.GetMouseButtonUp(0) && powerGameObject != null) {
+        Power power = powerGameObject.GetComponent<Power>();
+        power.Stop();
+        float force = power.GetCurrentForce();
         Jump(force);
       }
     }
@@ -73,7 +74,12 @@ public class Player : MonoBehaviour
     Vector2 velocity = rb.velocity;
     velocity.x = force / 3 * Mathf.Cos((float) angle * Mathf.Deg2Rad);
     float xForceFaultCoeficient = angle > 90f ? angle - 90f : 90f - angle;
-    velocity.y = force - xForceFaultCoeficient / 30f;
+    float yVelocity = force - xForceFaultCoeficient / 30f;
+    velocity.y = yVelocity > 1f ? yVelocity : 1f;    
+    if (yVelocity > 2) 
+      jumper.AnimateJump(); 
+    else 
+      jumper.AnimateStand();
     rb.velocity = velocity;
   }
 
@@ -116,8 +122,8 @@ public class Player : MonoBehaviour
     if (!isOnPlatform) {
       if (needleGameObject != null) 
         Destroy(needleGameObject);
-      if (power != null)
-        Destroy(power);
+      if (powerGameObject != null)
+        Destroy(powerGameObject);
       needles.ForEach(obj => Destroy(obj));
       powers.ForEach(obj => Destroy(obj));
       needles.Clear();
@@ -138,8 +144,8 @@ public class Player : MonoBehaviour
   private void InstantiatePower() {
     Vector3 position = transform.position;
     position.x = transform.position.x > 0 ? position.x - 0.5f : position.x + 0.5f;
-    power = Instantiate(powerPrefab, position, Quaternion.identity);
-    power.transform.parent = transform;
+    powerGameObject = Instantiate(powerPrefab, position, Quaternion.identity);
+    powerGameObject.transform.parent = transform;
 
     float width = Camera.main.aspect * 2f * Camera.main.orthographicSize;
     powers.Add(Instantiate(powerPrefab, new Vector3(position.x - width, position.y, position.z), Quaternion.identity));

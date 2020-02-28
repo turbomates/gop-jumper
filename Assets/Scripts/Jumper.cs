@@ -62,6 +62,12 @@ public class Jumper : MonoBehaviour
 
     public void AnimateJump() {
         animators.ForEach(animator => animator.SetBool("isSitting", false));
+        animators.ForEach(animator => animator.SetBool("isJumping", true));
+    }
+
+    public void AnimateStand() {
+        animators.ForEach(animator => animator.SetBool("isSitting", false));
+        animators.ForEach(animator => animator.SetBool("isStanding", true));
     }
 
     public void AnimateReposition(float yVelocity) {
